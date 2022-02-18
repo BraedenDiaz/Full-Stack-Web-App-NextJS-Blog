@@ -1,8 +1,37 @@
 import Head from 'next/head'
 import Layout, { siteTitle } from '../components/layout'
 import utilStyles from '../styles/utils.module.css'
+import { getSortedPostsData } from '../lib/posts'
 
-export default function Home() {
+// The function below is an example of how to use server-side rendering when we need
+// to fetch data at request time instead.
+//
+// This is not necessary for this blog web app, so we won't be implementing it, but
+// the starter code is here as an example.
+//
+// Because getServerSideProps is called at request time, its parameter (context)
+// contains request specific parameters.
+
+// export async function getServerSideProps(context) {
+//   return {
+//     props: {
+//       // props for your component
+//     }
+//   }
+// }
+
+export async function getStaticProps()
+{
+  const allPostsData = getSortedPostsData();
+
+  return {
+    props: {
+      allPostsData
+    }
+  };
+}
+
+export default function Home({ allPostsData }) {
   return (
     <Layout home>
       <Head>
@@ -21,6 +50,20 @@ export default function Home() {
           (This is a sample website built from the NextJS tutorial located on {' '}
           <a href="https://nextjs.org/learn">the official NextJS website</a>.)
         </p>
+      </section>
+      <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
+        <h2 className={utilStyles.headingLg}>Blog</h2>
+        <ul className={utilStyles.list}>
+          {allPostsData.map(({ id, date, title }) => (
+            <li className={utilStyles.listItem} key={id}>
+              {title}
+              <br />
+              {id}
+              <br />
+              {date}
+            </li>
+          ))}
+        </ul>
       </section>
     </Layout>
   )
