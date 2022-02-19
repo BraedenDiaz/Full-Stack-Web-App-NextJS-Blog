@@ -3,12 +3,12 @@ import Head from 'next/head';
 import Layout from '../../components/layout'
 import utilStyles from '../../styles/utils.module.css'
 import { getAllPostIds, getPostData } from '../../lib/posts'
+import { GetStaticPaths, GetStaticProps } from 'next';
 
 // Fetches the necessary data for the post with id to pass into
 // the component as a prop.
-export async function getStaticProps({ params })
-{
-    const postData = await getPostData(params.id);
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+    const postData = await getPostData(params.id as string);
     return {
         props: {
             postData
@@ -17,8 +17,7 @@ export async function getStaticProps({ params })
 }
 
 // Returns an array of possible values for id
-export async function getStaticPaths()
-{
+export const getStaticPaths: GetStaticPaths = async () => {
     const paths = getAllPostIds();
 
     return {
@@ -28,7 +27,13 @@ export async function getStaticPaths()
 }
 
 
-export default function Post({ postData })
+export default function Post({ postData }: {
+        postData: {
+            title: string
+            date: string
+            contentHtml: string
+        }
+    })
 {
     return (
         <Layout>

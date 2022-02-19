@@ -4,6 +4,7 @@ import Layout, { siteTitle } from '../components/layout'
 import Link from 'next/link'
 import utilStyles from '../styles/utils.module.css'
 import { getSortedPostsData } from '../lib/posts'
+import { GetStaticProps } from 'next'
 
 // The function below is an example of how to use server-side rendering when we need
 // to fetch data at request time instead.
@@ -14,7 +15,7 @@ import { getSortedPostsData } from '../lib/posts'
 // Because getServerSideProps is called at request time, its parameter (context)
 // contains request specific parameters.
 
-// export async function getServerSideProps(context) {
+// export const getServerSideProps: GetServerSideProps = async context => {
 //   return {
 //     props: {
 //       // props for your component
@@ -22,8 +23,7 @@ import { getSortedPostsData } from '../lib/posts'
 //   }
 // }
 
-export async function getStaticProps()
-{
+export const getStaticProps: GetStaticProps = async () => {
   const allPostsData = getSortedPostsData();
 
   return {
@@ -33,7 +33,13 @@ export async function getStaticProps()
   };
 }
 
-export default function Home({ allPostsData }) {
+export default function Home({ allPostsData }: {
+  allPostsData: {
+    date: string
+    title: string
+    id: string
+  }[]
+}) {
   return (
     <Layout home>
       <Head>

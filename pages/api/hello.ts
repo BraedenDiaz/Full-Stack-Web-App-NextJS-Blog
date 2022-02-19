@@ -46,13 +46,15 @@
  * 
  */
 
+import { NextApiRequest, NextApiResponse } from "next";
+
 /**
  * An example of an API endpoint in NextJS.
  * 
- * @param {*} req An instance of NodeJS's http.IncomingMessage, plus some pre-built middlewares (https://nextjs.org/docs/api-routes/api-middlewares).
- * @param {*} res An instance of NodeJS's http.ServerResponse, plus some helper functions (https://nextjs.org/docs/api-routes/response-helpers).
+ * @param {NextApiRequest} _ An instance of NodeJS's http.IncomingMessage, plus some pre-built middlewares (https://nextjs.org/docs/api-routes/api-middlewares).
+ * @param {NextApiResponse} res An instance of NodeJS's http.ServerResponse, plus some helper functions (https://nextjs.org/docs/api-routes/response-helpers).
  */
-export default function handler(req, res)
+export default function handler(_: NextApiRequest, res: NextApiResponse)
 {
     res.status(200).json({ text: "Hello" });
 }
